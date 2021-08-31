@@ -1,39 +1,41 @@
 /**
- *
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
- *
- * Dependencies: None
- *
- * JS Version: ES2015/ES6
- *
- * JS Standard: ESlint
- *
- */
-
-/**
  * Define Global Variables
  *
  */
-const sections = [...document.querySelectorAll("section")];
 const navbarList = document.querySelector("#navbar__list");
+const main = document.querySelector("main");
 
-/**
- * End Global Variables
- * Start Helper Functions
- *
- */
+// create section
+const createSection = function(secNum) {
+    const sectionHtml = ` 
+    <section id="section${secNum}" data-nav="Section ${secNum}" >
+    <div class="landing__container">
+    <h2>Section ${secNum}</h2>
+    <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed
+    convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis,
+    aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.
+    </p>
+    
+    <p>
+    Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor
+    tortor, eget elementum tortor mollis non.
+    </p>
+    </div>
+    </section>`;
 
-/**
- * End Helper Functions
- * Begin Main Functions
- *
- */
+    // add section in html
+    main.insertAdjacentHTML("beforeend", sectionHtml);
+};
+
+// create section 4
+createSection(4);
+
+// All sections
+const sections = [...document.querySelectorAll("section")];
 
 // build the nav
-const buildListItems = function() {
+(function() {
     // loop over each element in section list to get the information
     sections.forEach((val) => {
         // create list element
@@ -46,19 +48,13 @@ const buildListItems = function() {
         // add the entire list element to navbar list
         navbarList.appendChild(list);
     });
-};
+})();
 
 // Add class 'active' to section when near top of viewport
-
-// #################################
-// ######### (1)-First way #########
-// #################################
 
 // remove all active classes
 const removeActive = () =>
     sections.forEach((section) => section.classList.remove("your-active-class"));
-
-// (1.1)-Function First Way
 
 // check from active section
 const check = function() {
@@ -73,50 +69,6 @@ const check = function() {
         }
     });
 };
-
-// (1.2)-Function Second Way
-
-// check from active section
-// const check = function() {
-//     sections.forEach((section) => {
-//         let sectionTop = section.getBoundingClientRect().top + window.scrollY;
-//         let sectionHeight = section.getBoundingClientRect().height;
-//         if (pageYOffset >= sectionTop - sectionHeight / 2) {
-//             removeActive();
-//             section.classList.add("your-active-class");
-//         }
-//     });
-// };
-
-// #################################
-// ######### (2)-Second way #########
-// #################################
-
-// const secFun = function(entries) {
-//     entries.forEach((entry) => {
-//         if (entry.isIntersecting) {
-//             removeActive();
-//             entry.target.classList.add("your-active-class");
-//         }
-//     });
-// };
-// const sectionObserver = new IntersectionObserver(secFun, {
-//     root: null,
-//     threshold: 0.5,
-// });
-
-// sections.forEach((sec) => sectionObserver.observe(sec));
-
-// Scroll to anchor ID using scrollTO events
-
-/**
- * End Main Functions
- * Begin Events
- *
- */
-
-// Build menu
-buildListItems();
 
 // Set sections as active
 window.addEventListener("scroll", check);
